@@ -28,6 +28,32 @@ router.get("/movies/:indexNumber", function(req, res){
     res.send(requiredMovie)
 })
 
+router.get("/shoes", function(req, res){
+    let queryParams = req.query
+    let brand = queryParams.brand
+    res.send("dummy response")
+})
+
+// uses query params
+router.get('/candidates', function(req, res){
+    console.log('Query paramters for this request are '+JSON.stringify(req.query))
+    let gender = req.query.gender
+    let state = req.query.state
+    let district = req.query.district
+    console.log('State is '+state)
+    console.log('Gender is '+gender)
+    console.log('District is '+district)
+    let candidates = ['Akash','Suman']
+    res.send(candidates)
+})
+
+// use path param
+router.get('/candidates/:canidatesName', function(req, res){
+    console.log('The request objects is '+ JSON.stringify(req.params))
+    console.log('Candidates name is '+req.params.canidatesName)
+    res.send('Done')
+})
+
 router.get("/films", function(req, res){
     const films = [ {
         "id": 1,
