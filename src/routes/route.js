@@ -27,7 +27,7 @@ router.get('/student-details/:name', function(req, res){
     let requestParams = req.params
 
     // JSON strigify function helps to print an entire object
-    // We can use any ways to print an object in Javascript, JSON stringify is one of them
+    // We can use many ways to print an object in Javascript, JSON stringify is one of them
     console.log("This is the request "+ JSON.stringify(requestParams))
     let studentName = requestParams.name
     console.log('Name of the student is ', studentName)

@@ -1,5 +1,5 @@
-# Plutonium
-Backend cohort July 2022 - Nov 2022
+# Lithium
+Backend cohort Oct 2022 - Jan 2023
 
 
 # Assignment
