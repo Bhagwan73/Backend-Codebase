@@ -5,8 +5,8 @@ const route = require('./routes/route.js');
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());//json format
+app.use(bodyParser.urlencoded({ extended: true }));//link incoded
 
 app.use('/', route);
 
