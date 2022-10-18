@@ -31,6 +31,11 @@ router.get("/movies/:indexNumber", function(req, res){
 router.get("/shoes", function(req, res){
     let queryParams = req.query
     let brand = queryParams.brand
+    let discount = queryParams.discount
+    let color = queryParams.color
+    console.log('The brand selected is ', brand)
+    console.log('The discount option selected is ', discount)
+    console.log('The color selected is ', color)
     res.send("dummy response")
 })
 
