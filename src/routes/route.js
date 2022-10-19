@@ -106,7 +106,59 @@ router.get("/films/:filmId", function(req, res){
 
        //if there is no match give an error response
        res.send("The film id doesn't match any movie")
+
+       //====================================================================
+})
+router.get('/moblie',function(req,res){
+    let queryParams=req.query   //{brand:samsung}
+    
+    let brand=queryParams.brand
+    let RAM=queryParams.RAM
+    let color=queryParams.color
+    
+   console.log( "this is the brand of"+ "  "+brand)
+   console.log( "this is the RAM of"+ " "+RAM)
+   console.log( "this is the color of"+ " "+color)
+   res.send("dummy responce")
+})
+//=============================================================================
+
+router.get('/sol1',function(req,res){
+    const arr= [1,2,3,5,6,7]
+    let n=arr.length+1//  6+1=7
+    let sum_of_natural_no=n*(n+1)/2  //7*8/2=28  //[ n * (first + last) / 2 ]
+    sum_of_arr=0;
+    for (let index = 0; index < arr.length; index++) {
+        const element = arr[index];
+        sum_of_arr+=element //24
+    }
+    let result=sum_of_natural_no-sum_of_arr  //28-24
+res.send({data:result})
 })
 
+
+//============================================================
+router.get('/sol2',function(req,res){
+    let arr= [33, 34, 35, 37, 38]
+    let n=arr.length+1
+    let sum_No=n*(33+38)/2 //===213 // [ n * (first + last) / 2 ]
+    sumOfarray=0;
+    for (let index = 0; index < arr.length; index++) {
+        const element = arr[index];
+        sumOfarray+=element
+
+    }
+    let result=sum_No-sumOfarray  //213-177
+    res.send({data:result})
+
+})
+//===========post-api=================
+router.post('/practice',function(req,res){
+    let result=req.body.name
+    let lastN=req.body.lastNmae
+    
+
+    res.send({data:result,lastN})
+})
 module.exports = router;
 // adding this comment for no reason
