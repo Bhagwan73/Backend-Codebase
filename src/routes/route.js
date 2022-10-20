@@ -69,5 +69,52 @@ router.post("/test-post-4", function(req, res) {
     arr.push(ele)
     res.send(  { msg: arr , status: true }  )
 })
+let players =
+   [
+       {
+           "name": "manish",
+           "dob": "1/1/1995",
+           "gender": "male",
+           "city": "jalandhar",
+           "sports": [
+               "swimming"
+           ]
+       },
+       {
+           "name": "gopal",
+           "dob": "1/09/1995",
+           "gender": "male",
+           "city": "delhi",
+           "sports": [
+               "soccer"
+           ],
+       },
+       {
+           "name": "lokesh",
+           "dob": "1/1/1990",
+           "gender": "male",
+           "city": "mumbai",
+           "sports": [
+               "soccer"
+           ],
+       },
+    ]
+    router.post('/player', function (req, res) {
+        let body=req.body
+        
+        let name=req.body.name
+        for (let index = 0; index < players.length; index++) {
+           const element = players[index];
+        let playerName =element.name
+        if(playerName===name){
+           res.send({status:false,msg:"this person is already exists"})
+       }   
+        } 
+        players.push(body)
+       res.send(  { data: players , status:true})
+       })
+
+
+
 
 module.exports = router;
