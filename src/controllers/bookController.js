@@ -21,7 +21,7 @@ const getBooksData= async function (req, res) {
     // let allBooks= await BookModel.find().sort( { sales: -1 }) // SORT
 
     // PAGINATION 
-    // let page= req.query.page
+    // let page= req.query.page                                    
     // let allBooks= await BookModel.find().skip(3 * (page-1)).limit(3)
 
     // let allBooks= await BookModel.find().sort({ sales: -1 }).skip(3 * (page-1)).limit(3).select({ bookName: 1, authorName: 1, _id: 0} )
