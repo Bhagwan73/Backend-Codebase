@@ -6,7 +6,7 @@ const nebookSchema =new mongoose.Schema({
         required:true                    
     },
     price :{
-        indianPrice:String,
+        indianPrice:Number,
         europeanPrice:String
     },  
     year:{

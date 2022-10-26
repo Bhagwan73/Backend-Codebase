@@ -20,17 +20,18 @@ const getBooksInYear=async function(req,res){
 
 const getParticularBooks=async function(req,res){
     let data=req.body
-    let savedData=await newbookModel.findOne(data)
+    let savedData=await newbookModel.find(data)
     res.send({msg:savedData})
 }
 
 const getXINRBooks=async function(req,res){
-    let savedData=await newbookModel.find({indianPrice : {$or:["100INR","200INR","500INR"]}})
+    
+    let savedData=await newbookModel.find({"price.indianprice":{$in:["100INR","200INR","500INR"]}})
     res.send({msg:savedData})
 }
-
+    
 const getRandomBooks =async function(req,res){
-    let savedData=await newbookModel.find({$and:[{ totalPages : { $gt:  500 }  },{stockAvailable :true}]})
+    let savedData=await newbookModel.find({$and:[{ totalPages: { $gt:  500}  },{stockAvailable:true }]})
     res.send({msg:savedData})
 }
 
