@@ -24,9 +24,9 @@ const createUser= async function (req, res) {
     console.log("The content type header of this request is: ",contentType)
     
     //Set a header in request
-    req.headers.year = 2022
+    req.headers["year"] = 2022
     console.log("The updated headers attribute of this request is: ",req.headers)
-
+    res.setHeader("message","Hi there!")
     res.send({msg: "Hi"})
 }
 
@@ -35,6 +35,18 @@ const getUsersData= async function (req, res) {
     res.send({msg: allUsers})
 }
 
+const dummyOne = function (req, res) {
+    if (req.wantsJson) res.send({msg: "ok"})
+    else res.send("ok")
+}
+
+const dummyTwo = function (req, res) {
+    if (req.wantsJson) res.send({msg: "another example response"})
+    else res.send("another example response")
+}
+
 module.exports.createUser= createUser
 module.exports.getUsersData= getUsersData
 module.exports.basicCode= basicCode
+module.exports.dummyOne = dummyOne
+module.exports.dummyTwo = dummyTwo

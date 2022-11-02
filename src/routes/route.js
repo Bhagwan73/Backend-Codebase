@@ -16,6 +16,10 @@ router.post("/createBook", commonMW.myMiddleware,BookController.createBook, func
 
 router.post("/createUser", commonMW.myMiddleware, UserController.createUser)
 
+router.get("/dummy1", commonMW.myOtherMiddleware, UserController.dummyOne)
+
+router.get("/dummy2", commonMW.myOtherMiddleware, UserController.dummyTwo)
+
 router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.mid4, UserController.basicCode)
 
 module.exports = router;
