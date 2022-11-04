@@ -24,7 +24,7 @@ TOPIC: Middleware2
 	age: 90,
  	gender: “female” // Allowed values are - “male”, “female”, “other”
 	isFreeAppUser: false // Default false value.
-}
+}  
 ```
 
 - Your product document should look like this
