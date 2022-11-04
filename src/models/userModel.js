@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema( {
     firstName: String,
     lastName: String,
-    mobile: {
+    mobile: {  
         type: String,
 
         required: true
@@ -14,7 +14,11 @@ const userSchema = new mongoose.Schema( {
         type: String,
         enum: ["male", "female", "other"]
     },
-    age: Number,
+    age: Number,   
+    isDeleted:{  
+        type:Boolean,
+        default:false
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema)
