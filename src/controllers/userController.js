@@ -61,13 +61,13 @@ try{
 const updateUser = async function (req, res) {
   let userId = req.params.userId;
   let userData = req.body;
-  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData);
+  let updatedUser = await userModel.findByIdAndUpdate({ _id: userId }, userData);
 
   return res.send({ status: true, data: updatedUser });  
 };
 
 const deleteuser=async function(req,res){
-  try{
+  try{  
   let userId = req.params.userId;
   let savedData=await userModel.findByIdAndUpdate({_id:userId},{$set:{isDeleted:true}},{new:true})
 

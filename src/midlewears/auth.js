@@ -14,7 +14,7 @@ if (!decodedToken)
 
 let userId = req.params.userId;
 let userDetails = await userModel.findById(userId);
-if (!userDetails)
+if (!userDetails)  
   return res.send({ status: false, msg: "No such user exists" });
 res.send({ status: true, data: userDetails });
 
