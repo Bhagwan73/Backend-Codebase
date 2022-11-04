@@ -69,7 +69,7 @@ const updateUser = async function (req, res) {
 const deleteuser=async function(req,res){
   try{
   let userId = req.params.userId;
-  let savedData=await userModel.updateOne({_id:userId},{$set:{isDeleted:true}},{new:true})
+  let savedData=await userModel.findByIdAndUpdate({_id:userId},{$set:{isDeleted:true}},{new:true})
 
   res.status(201).send({status:true,data:savedData})
   }catch(err){
