@@ -5,17 +5,21 @@ const userSchema = new mongoose.Schema( {
     lastName: String,
     mobile: {
         type: String,
-
         required: true
     },
     emailId: String,
-    password: String,
+    password: String,  
     gender: {
         type: String,
         enum: ["male", "female", "other"]
     },
     age: Number,
-    posts: {type: [], deafult: []}
+    posts: {type: [], deafult: []},
+    isDeleted:{
+        type:Boolean,
+        default:false
+    }
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema)
