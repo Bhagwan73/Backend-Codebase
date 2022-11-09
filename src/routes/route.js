@@ -19,5 +19,5 @@ router.post("/cowin/getOtp", CowinController.getOtp)
 
 router.get("/cowin/getByDistricts", CowinController2.getByDistricts)
 router.get("/checkweather", CowinController2.checkweather)
-router.get("/createMemes", CowinController2.createMemes)
+router.post("/createMemes", CowinController2.createMemes)
 module.exports = router;
