@@ -49,7 +49,7 @@ let getByPin = async function (req, res) {
         }
         let result = await axios(options)
         console.log(result.data)
-        res.status(200).send({ msg: result.data })
+        res.status(200).send({ msg: result.data })          
     }
     catch (err) {
         console.log(err)
