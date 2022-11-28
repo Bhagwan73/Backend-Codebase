@@ -48,11 +48,11 @@ const userLogin = async function (req, res) {
       },
       "group-67"
     );
-    console.log(token);
+    // console.log(token);
     res.setHeader("x-api-key", token);
 
     res.status(200).send({ status: true, message: "Success", data: { userId: getUsersData._id, token: token } });
-    console.log(token);
+    // console.log(token);
   } catch (err) {
     res.status(500).send({ status: false, message: err.message })
   }

@@ -7,12 +7,16 @@ const userController = require("../controllers/userController");
 
 router.post("/register", userController.register_user);
 
+/***********************************login *************************/
+router.post("/login",userController.userLogin)
+
 /***************************************create Book**************************/
 
 router.post("/books",bookController.createBook)
 
-/*****************************getbooks**********************/
+/*****************************getbooks********************************************/
 
 router.get("/books",bookController.getbooks)
-router.post("/login",userController.userLogin)
+
+
 module.exports = router;

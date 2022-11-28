@@ -30,13 +30,15 @@ exports.createBook = async function (req, res) {
 const getbooks = async function(req,res){
     try{
         const queryData = req.query
-        if(Object.keys(queryData).length>0){
-            const data = await bookModel.find({isDeleted:false},queryData).select({title:1,_id:1,  excerpt:1, userId:1, category:1, releasedAt:1, reviews:1})
-         return res.status(200).send({status:true,Data:data})
+        console.log(Object.keys(queryData).length)
+        if(Object.keys(queryData).length == 0){
+            const data = await bookModel.find({isDeleted:false}).select({title:1,_id:1,  excerpt:1, userId:1, category:1, releasedAt:1, reviews:1})
+            return res.status(200).send({status:true,Data:data})
+        }
+        else{
+            const data = await bookModel.find(queryData ,{isDeleted:false}).select({title:1,_id:1,  excerpt:1, userId:1, category:1, releasedAt:1, reviews:1})
+            return res.status(200).send({status:true,Data:data})
 
-        }else{
-        const data = await bookModel.find({isDeleted:false}).select({title:1,_id:1,  excerpt:1, userId:1, category:1, releasedAt:1, reviews:1})
-         return res.status(200).send({status:true,Data:data})
         }
     }
     catch(err){
