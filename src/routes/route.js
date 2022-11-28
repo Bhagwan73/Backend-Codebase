@@ -9,7 +9,10 @@ router.post("/register", userController.register_user);
 
 /***************************************create Book**************************/
 
-router.post("books",bookController.createBook)
+router.post("/books",bookController.createBook)
 
+/*****************************getbooks**********************/
+
+router.get("/books",bookController.getbooks)
 
 module.exports = router;
