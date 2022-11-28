@@ -16,10 +16,12 @@ const bookSchema = new mongoose.Schema({
     userId: {
         type: ObjectId,
         required: true,
-        ref: 'User' },
+        ref: 'User' 
+    },
     ISBN: {
         type: String,
-        required: true, unique: true
+        required: true,
+        unique: true
     },
     category: {
         type: String,
