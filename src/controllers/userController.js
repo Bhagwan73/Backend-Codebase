@@ -87,38 +87,14 @@ const register_user = async function (req, res) {
         message: "please provide the valid or strong password",
       });
 
-    //--------------->>-address..
+ //--------------->>-address..
+ if(pincode){
+  if(!isValidPincode(pincode)) return res.status(400).send({status:false,message:"please provide the valid pincode"})
+ }
+ if(city){
+  if(!isValidCity(city)) return res.status(400).send({status:false,message:"please provide the valid city name"})
+ }
 
-    /*if (!address) {
-      return res
-        .status(400)
-        .send({ status: false, message: "address is required" });
-    } else {
-      const { pincode, street, city } = address;
-      if (!street)
-        return res
-          .status(400)
-          .send({ status: false, message: "street is required" });
-
-      if (!pincode)
-        return res
-          .status(400)
-          .send({ status: false, message: "pincode is required" });
-      if (!isValidPincode(pincode))
-        return res
-          .status(400)
-          .send({ status: false, message: "please provide the valid pincode" });
-
-      if (!city)
-        return res
-          .status(400)
-          .send({ status: false, message: "city is required" });
-      if (!isValidCity(city))
-        return res.status(400).send({
-          status: false,
-          message: "please provide the valid city name",
-        });
-    }**/
     //------------>>-createUser..
     const user = await userModel.create(data);
     return res
