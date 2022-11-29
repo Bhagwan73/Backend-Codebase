@@ -18,5 +18,8 @@ router.post("/books",bookController.createBook)
 
 router.get("/books",bookController.getbooks)
 
+/**************************get Book By BookId *****************************************/
+
+router.get("/books/:bookId",bookController.getBookById)
 
 module.exports = router;

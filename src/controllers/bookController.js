@@ -1,6 +1,7 @@
 const bookModel = require("../models/bookModel");
+const { isValidObjectId } = require("../validator/validator");
 
-exports.createBook = async function (req, res) {
+const createBook = async function (req, res) {
   try {
     let data = req.body;
     const { title, excerpt, userId, ISBN, category, subcategory } = data;
@@ -72,11 +73,30 @@ const getbooks = async function (req, res) {
           .send({ status: false, message: "Book not found" });
       }
 
-      return res.status(200).send({ status: true, Data: data });
+      return res.status(200).send({ status: true,message : "Book list", data: data });
     }
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }
 };
 
-module.exports.getbooks = getbooks;
+const getBookById = async function(req,res){
+  try {
+    let bookId = req.params.bookId
+
+    if(!bookId) return res.status(400).send({status : false , message : "bookId is required"})
+
+    if(!isValidObjectId(bookId)) return res.status(400).send({status : false , message : "please provide valid bookId"})
+
+    let result = {isDeleted:false , _id : bookId}
+    const bookById = await bookModel.findOne(result)
+
+    if(!bookById) return res.status(404).send({status:false , message : "Book not found with this bookId"});
+    
+    return res.status(200).send({status: true,message: 'Books list',data: bookById})
+  } catch (error) {
+    return res.status(500).send({ status: false, message: error.message });    
+  }
+}
+
+module.exports = {getbooks,createBook,getBookById}
