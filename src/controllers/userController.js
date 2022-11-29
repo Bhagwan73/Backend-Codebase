@@ -39,7 +39,7 @@ const register_user = async function (req, res) {
       return res
         .status(400)
         .send({ status: false, message: "name is required" });
-    if (!isValidString)
+    if (!isValidString(name))
       return res
         .status(400)
         .send({ status: false, message: "please provide the valid name" });
@@ -66,7 +66,7 @@ const register_user = async function (req, res) {
       return res
         .status(400)
         .send({ status: false, message: "email is required" });
-    if (!isValidEmail)
+    if (!isValidEmail(email))
       return res
         .status(400)
         .send({ status: false, message: "plese provide the valid emailId" });
