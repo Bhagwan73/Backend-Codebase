@@ -135,4 +135,20 @@ const updateBook = async function (req, res) {
     return res.status(500).send({ status: false, message: err.message })
   }
 }
-module.exports = {getbooks,createBook,getBookById,updateBook}
+
+const deletebookbyId= async function(req, res){
+  try{
+     let bookId= req.params.bookId
+     if(!bookId) return res.status(400).send({status:false, message:"please provide bookId"})
+     if(!isValidObjectId(bookId)) return res.status(400).send({status: false,  message :"please provide valid bookId"})
+     const bookisdel= await bookModel.findById(bookId)
+     if(!bookisdel) return res.status(400).send({status:false, message: "book from this bookId is not exists"})
+     if(bookisdel.isDeleted==true) return res.status(400).send({status: false, message: "book with this bookId is already deleted"})
+    const bookbyId= await bookModel.findOneAndUpdate({_id:bookId}, {$set:{isDeleted:true}}, {new:true})
+    if(!bookbyId) return res.status(404).send({status: false,  message: "book not exists with this bookId"})
+    return res.status(200).send({status:true, message: "successfully deleted", data: bookbyId })
+  }catch(error){
+    return res.status(500).send({status:false, message:error.message})
+  }
+}
+module.exports = {getbooks,createBook,getBookById,updateBook,deletebookbyId}
