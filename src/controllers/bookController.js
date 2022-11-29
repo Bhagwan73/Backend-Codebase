@@ -2,7 +2,7 @@ const bookModel = require("../models/bookModel");
 const { isValidObjectId } = require("../validator/validator");
 
 //-------------------------->>-createBook-<<---------------------------<<
-exports.createBook = async function (req, res) {
+const createBook = async function (req, res) {
     try {
         let data = req.body
         const { title, excerpt, userId, ISBN, category, subcategory } = data
@@ -102,4 +102,37 @@ const getBookById = async function(req,res){
   }
 }
 
-module.exports = {getbooks,getBookById}
+
+//************update books********//
+
+const updateBook = async function (req, res) {
+  try {
+    const Data = req.body
+    if (Object.keys(Data) == 0) {
+      return res.status(400).send({ status: false, message: "please provide Data" })
+    }
+
+      const bookId = req.params.bookId
+      if (!bookId) {
+        return res.status(400).send({ status: false, message: "please provide bookId" })
+      }
+      const bookDetails = await bookModel.findById(bookId)
+      if (!bookDetails) {
+        return res.status(404).send({ status: false, message: "book not found" })
+      }
+      if (bookDetails.isDeleted == true) {
+        return res.status(400).send({ status: false, message: "book is already deleted" })
+      }
+      const updatedData = await bookModel.findOneAndUpdate({ _id: bookId },
+         { $set: {title:req.body.title,
+          excerpt:req.body.excerpt,
+          releasedAt:req.body.releasedAt,
+          ISBN:req.body.ISBN
+        } }, { new: true })
+      return res.status(200).send({ status: true, message: "successfully updated", data: updatedData })
+  }
+  catch (err) {
+    return res.status(500).send({ status: false, message: err.message })
+  }
+}
+module.exports = {getbooks,createBook,getBookById,updateBook}
