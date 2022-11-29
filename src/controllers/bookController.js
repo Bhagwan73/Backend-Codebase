@@ -1,12 +1,12 @@
 const bookModel = require("../models/bookModel");
 const userModel = require("../models/userModel")
-const { isValidObjectId,isValidISBN,isValidString } = require("../validator/validator");
+const { isValidObjectId,isValidISBN,isValidString, isValidDate } = require("../validator/validator");
 
 //-------------------------->>-createBook-<<---------------------------<<
 const createBook = async function (req, res) {
     try {
         let data = req.body
-        const { title, excerpt, userId, ISBN, category, subcategory } = data
+        const { title, excerpt, userId, ISBN, category, subcategory,releasedAt } = data
 
         //-------------->>-validation-<<----------------<<
      if(Object.keys(data).length==0){
@@ -41,6 +41,10 @@ const createBook = async function (req, res) {
         //----------->>-subcategory..
         if (!subcategory) return res.status(400).send({ status: false, message: "subcategory is mandatory in request body" })
         if (!isValidString(subcategory)) return res.status(400).send({ status: false, message: "please provide the valid subcategory" })
+
+        //------------>>-releasedAt..
+        if (!releasedAt) return res.status(400).send({ status: false, message: "releasedAt is mandatory in request body" })
+        if (!isValidDate(releasedAt)) return res.status(400).send({ status: false, message: "please provide the valid releasedAt" })
 
         //------------->>-createBook..
         let createBook = await bookModel.create(data)

@@ -39,3 +39,9 @@ exports.isValidPincode = function (pin) {
 exports.isValidCity = function (city) {
     return /^[A-Za-z]+$/.test(city)
 }
+
+//------------------>>>-city_Validation-<<<-------------------------<<
+exports.isValidDate = function (Date) {
+    return/^((?:19|20)[0-9][0-9])-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/.test(Date)
+}
+
