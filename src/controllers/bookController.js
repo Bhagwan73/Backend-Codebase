@@ -1,5 +1,6 @@
 const bookModel = require("../models/bookModel");
-const { isValidObjectId } = require("../validator/validator");
+const userModel = require("../models/userModel")
+const { isValidObjectId,isValidISBN,isValidString } = require("../validator/validator");
 
 //-------------------------->>-createBook-<<---------------------------<<
 const createBook = async function (req, res) {
@@ -108,7 +109,8 @@ const getBookById = async function(req,res){
 const updateBook = async function (req, res) {
   try {
     const Data = req.body
-    if (Object.keys(Data) == 0) {
+    const {title,excerpt,releasedAt,ISBN}=Data
+    if (Object.keys(Data).length == 0) {
       return res.status(400).send({ status: false, message: "please provide Data" })
     }
 
@@ -127,21 +129,11 @@ const updateBook = async function (req, res) {
       if (bookDetails.isDeleted == true) {
         return res.status(400).send({ status: false, message: "book is already deleted" })
       }
-      const updatedData = await bookModel.findOneAndUpdate({ _id: bookId },
-         { $set: {title:req.body.title,
-          excerpt:req.body.excerpt,
-          releasedAt:req.body.releasedAt,
-          ISBN:req.body.ISBN
-        } }, { new: true })
+      const updatedData = await bookModel.findOneAndUpdate({ _id: bookId },Data, { new: true })
         if(bookDetails.title==Data.title){
           return res.status(400).send({status:false,message:"title is already exists"})
         }
-        if(bookDetails.excerpt==Data.excerpt){
-          return res.status(400).send({status:false,message:"excerpt is already exists"})
-        }
-        if(bookDetails.releasedAt==Data.releasedAt){
-          return res.status(400).send({status:false,message:"releasedAT is already exists"})
-        }
+        
         if(bookDetails.ISBN==Data.ISBN){
           return res.status(400).send({status:false,message:"ISBN is already exists"})
         }
@@ -160,7 +152,7 @@ const deletebookbyId= async function(req, res){
      const bookisdel= await bookModel.findById(bookId)
      if(!bookisdel) return res.status(400).send({status:false, message: "book from this bookId is not exists"})
      if(bookisdel.isDeleted==true) return res.status(400).send({status: false, message: "book with this bookId is already deleted"})
-    const bookbyId= await bookModel.findOneAndUpdate({_id:bookId}, {$set:{isDeleted:true}}, {new:true})
+    const bookbyId= await bookModel.findOneAndUpdate({_id:bookId}, {$set:{isDeleted:true,deletedAt:new Date(Date.now())}}, {new:true})
     if(!bookbyId) return res.status(404).send({status: false,  message: "book not exists with this bookId"})
     return res.status(200).send({status:true, message: "successfully deleted", data: bookbyId })
   }catch(error){
