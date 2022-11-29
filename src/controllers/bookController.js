@@ -116,6 +116,10 @@ const updateBook = async function (req, res) {
       if (!bookId) {
         return res.status(400).send({ status: false, message: "please provide bookId" })
       }
+      if(!isValidObjectId(bookId)){
+        return res.status(400).send({status : false , message : "please provide valid bookId"})
+
+      } 
       const bookDetails = await bookModel.findById(bookId)
       if (!bookDetails) {
         return res.status(404).send({ status: false, message: "book not found" })
@@ -129,6 +133,18 @@ const updateBook = async function (req, res) {
           releasedAt:req.body.releasedAt,
           ISBN:req.body.ISBN
         } }, { new: true })
+        if(bookDetails.title==Data.title){
+          return res.status(400).send({status:false,message:"title is already exists"})
+        }
+        if(bookDetails.excerpt==Data.excerpt){
+          return res.status(400).send({status:false,message:"excerpt is already exists"})
+        }
+        if(bookDetails.releasedAt==Data.releasedAt){
+          return res.status(400).send({status:false,message:"releasedAT is already exists"})
+        }
+        if(bookDetails.ISBN==Data.ISBN){
+          return res.status(400).send({status:false,message:"ISBN is already exists"})
+        }
       return res.status(200).send({ status: true, message: "successfully updated", data: updatedData })
   }
   catch (err) {
