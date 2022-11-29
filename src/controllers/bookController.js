@@ -51,28 +51,38 @@ exports.createBook = async function (req, res) {
 
 //------------------------------->>-getBook-<<-------------------<<
 
-const getbooks = async function(req,res){
-    try{
-        const queryData = req.query
-        if(Object.keys(queryData).length>0){
-            const data = await bookModel.find({isDeleted:false},queryData).select({title:1,_id:1,  excerpt:1, userId:1, category:1, releasedAt:1, reviews:1})
-         return res.status(200).send({status:true,Data:data})
+const getbooks = async function (req, res) {
+  try {
+    let queries = req.query;
+    let result = { isDeleted: false, ...queries };
+    if (!Object.keys(queries).length) {
+      const data = await bookModel
+        .find({ isDeleted: false })
+        .sort({ title: 1 });
+      if (!Object.keys(data).length) {
+        return res
+          .status(404)
+          .send({ status: false, message: "Book not found" });
+      }
+      return res.status(200).send({ status: true, Data: data });
+    } else {
+      const data = await bookModel.find(result)
+        .select({title: 1, _id: 1, excerpt: 1,userId: 1, category: 1, releasedAt: 1,reviews: 1,})
+        .sort({ title: 1 });
 
-        }else{
-        const data = await bookModel.find({isDeleted:false}).select({title:1,_id:1,  excerpt:1, userId:1, category:1, releasedAt:1, reviews:1})
-         return res.status(200).send({status:true,Data:data})
-        }
+      if (!Object.keys(data).length) {
+        return res
+          .status(404)
+          .send({ status: false, message: "Book not found" });
+      }
+
+      return res.status(200).send({ status: true,message : "Book list", data: data });
     }
-    catch(err){
-        return res.status(500).send({status:false,message:err.message})
-    }
-
-}
-
-
-
+  } catch (err) {
+    return res.status(500).send({ status: false, message: err.message });
+  }
+};
      
-
 const getBookById = async function(req,res){
   try {
     let bookId = req.params.bookId
