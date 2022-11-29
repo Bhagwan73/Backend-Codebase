@@ -13,7 +13,7 @@ const {
 const register_user = async function (req, res) {
   try {
     let data = req.body;
-    const { title, name, phone, email, password, address } = data;
+    const { title, name, phone, email, password, address} = data;
 
     //------------------>>-validations-<<----------------------<<
     if (Object.keys(data).length == 0) {
@@ -88,6 +88,7 @@ const register_user = async function (req, res) {
       });
 
  //--------------->>-address..
+  const {pincode,street,city} = address
  if(pincode){
   if(!isValidPincode(pincode)) return res.status(400).send({status:false,message:"please provide the valid pincode"})
  }
