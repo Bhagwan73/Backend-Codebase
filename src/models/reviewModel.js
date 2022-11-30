@@ -19,7 +19,8 @@ const reviewSchema = new mongoose.Schema({
         type: Number,
         minLength: 1,
         maxLength: 5,
-        required: true
+        required: true,
+        trim:true
     },
     review: { type: String },
     isDeleted: {
