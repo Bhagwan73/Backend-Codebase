@@ -156,14 +156,11 @@ const userLogin = async function (req, res) {
 
     let token = jwt.sign(
       {
-        userId: getUsersData._id.toString(),
-        // iat: Math.floor(Date.now() / 1000), //issue date
-        // exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24, //expires in 24 hr
+        userId: getUsersData._id.toString()
       },
       "Book-mgmt",
-      { expiresIn: 10 * 60 }
+      { expiresIn: 60 * 60 }
     );
-    // console.log(token);
     res.setHeader("x-api-key", token);
 
     return res.status(200).send({
