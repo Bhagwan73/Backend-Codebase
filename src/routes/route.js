@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bookController=require("../controllers/bookController")
 const userController = require("../controllers/userController");
+const middleware= require("../middlewares/auth")
 
 /***********************************user resiter *****************************/
 
@@ -16,7 +17,7 @@ router.post("/books",bookController.createBook)
 
 /*****************************getbooks********************************************/
 
-router.get("/books",bookController.getbooks)
+router.get("/books",middleware.authenticate,bookController.getbooks)
 
 /**************************get Book By BookId *****************************************/
 
