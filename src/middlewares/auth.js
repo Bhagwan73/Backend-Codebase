@@ -1,9 +1,6 @@
 const jwt = require("jsonwebtoken");
 let decodedtoken;
 
-
-
-
 exports.authenticate = function(req, res, next){
     try{
         let token = req.headers["x-api-key"] || req.headers["X-Api-Key"];

@@ -33,4 +33,7 @@ router.delete("/books/:bookId",bookController.deletebookbyId)
 /***********************************create review***********************************/
 router.post("/books/:bookId/review",reviewController.createReview)
 
+/***********************************update review***********************************/
+router.put("/books/:bookId/review/:reviewId",reviewController.updateReview)
+
 module.exports = router;

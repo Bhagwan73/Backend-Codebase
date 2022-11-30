@@ -42,6 +42,13 @@ exports.isValidCity = function (city) {
 
 //------------------>>>-city_Validation-<<<-------------------------<<
 exports.isValidDate = function (Date) {
-    return/^((?:19|20)[0-9][0-9])-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/.test(Date)
+    return /^((?:19|20)[0-9][0-9])-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/.test(Date)
 }
+
+/**********************************rating validator ***********************/
+
+exports.isValidRating = function (value) {
+    return /^[0-5]$/.test(value)
+}
+
 
