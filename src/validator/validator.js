@@ -48,7 +48,7 @@ exports.isValidDate = function (Date) {
 /**********************************rating validator ***********************/
 
 exports.isValidRating = function (value) {
-    return /^[0-5]$/.test(value)
+    return /^[1-5]$/.test(value)
 }
 
 

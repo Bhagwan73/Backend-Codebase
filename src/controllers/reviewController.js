@@ -86,4 +86,16 @@ const updateReview = async function(req,res){
     }
 }
 
+
+ecports.deleteReview=async function(req,res){
+    const{bookId,reviewId}=req.params
+    if(!bookId) return res.status(400).send({status:false,message:"please provide the bookId"})
+    if(!isValidObjectId(bookId)) return res.status(400).send({status:false,message:"please provide the valid bookId"})
+    let book=await bookModel.findOne({_id:bookId,isDeleted:false})
+    if(!book) return res.status(400).send({status:false,message:"this book is not exists"})
+    if(!reviewId) return res.status(400).send({status:false,message:"please provide the reviewId"})
+    if(!isValidObjectId(reviewId)) return res.status(400).send({status:false,message:"this reviewId is not exists"})
+    let review=await reviewModel.findOne({_id:reviewId,isDeleted:false})
+    if(!review) return res.status(400).send({status:false,message:"this review is not exists"})
+}
 module.exports={createReview,updateReview}
