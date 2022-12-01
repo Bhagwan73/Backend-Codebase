@@ -6,38 +6,33 @@ const reviewController = require("../controllers/reviewController");
 const {authenticate,authorisation} = require("../middlewares/auth");
 
 /***********************************user register *****************************/
+router.post("/register", userController.createUser);
 
-router.post("/register", userController.register_user);
-
-/***********************************login *************************/
+/***********************************login ************************************/
 router.post("/login",userController.userLogin)
 
 /***************************************create Book**************************/
-
 router.post("/books",authenticate,bookController.createBook)
 
-/*****************************getbooks********************************************/
-
+/*****************************getbooks***************************************/
 router.get("/books",authenticate,bookController.getbooks)
 
-/**************************get Book By BookId *****************************************/
-
+/**************************get Book By BookId *******************************/
 router.get("/books/:bookId",authenticate,bookController.getBookById)
 
-/*************************update books******************************************************* */
+/*************************update books**************************************/
 router.put("/books/:bookId",authenticate,bookController.updateBook)
 
-/***********************************delete books************************************ */
+/***********************************delete books****************************/
 router.delete("/books/:bookId",authenticate,bookController.deletebookbyId)
 
-/***********************************create review***********************************/
+/***********************************create review***************************/
 router.post("/books/:bookId/review",reviewController.createReview)
 
-/***********************************update review***********************************/
+/***********************************update review***************************/
 router.put("/books/:bookId/review/:reviewId",reviewController.updateReview)
 
-/************************************delete review  ********************************/
-
+/************************************delete review  ***********************/
 router.delete("/books/:bookId/review/:reviewId",reviewController.deleteReview)
 
 module.exports = router;
