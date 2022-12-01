@@ -29,6 +29,7 @@ const createReview = async function(req,res){
         }
 
         const reviewBook = await reviewModel.create({bookId,reviewedBy,reviewedAt,rating,review})
+        
         if (reviewBook) { 
             var updateData = await bookModel.findOneAndUpdate({ _id: bookId, isDeleted: false },
                  { $inc: { reviews: 1 }}, { new: true }).select({ __v: 0 }).lean()
