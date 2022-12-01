@@ -91,9 +91,7 @@ const getbooks = async function (req, res) {
 const getBookById = async function(req,res){
   try {
     let bookId = req.params.bookId
-
     if(!bookId) return res.status(400).send({status : false , message : "bookId is required"})
-
     if(!isValidObjectId(bookId)) return res.status(400).send({status : false , message : "please provide valid bookId"})
 
     let result = {isDeleted:false , _id : bookId}
