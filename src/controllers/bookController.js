@@ -27,8 +27,8 @@ const createBook = async function (req, res) {
       if (!userId) return res.status(400).send({ status: false, message: "userId is mandatory in request body" })
       if(!isValidObjectId(userId)) return res.status(400).send({status:false,message:"please provide the valid userId"})
       
-      let ObjectId=await userModel.findById(userId)
-      if(!ObjectId) return res.status(400).send({ status: false, message: "please provide the valid userId" })
+      let user=await userModel.findById(userId)
+      if(!user) return res.status(404).send({ status: false, message: "user not found" })
         
       //----------->>-ISBN..
       if (!ISBN) return res.status(400).send({ status: false, message: "ISBN is mandatory in request body" })
@@ -132,23 +132,27 @@ const updateBook = async function (req, res) {
         return res.status(400).send({status : false , message : "please provide valid bookId"})
 
       } 
-      const bookDetails = await bookModel.findById(bookId)
-      if (!bookDetails) {
+      const book = await bookModel.findById(bookId)
+      if (!book) {
         return res.status(404).send({ status: false, message: "book not found" })
       }
-      if (bookDetails.isDeleted == true) {
+      if (book.isDeleted == true) {
         return res.status(400).send({ status: false, message: "book is already deleted" })
       }
 
       const books = await bookModel.find()
-      const updatedData = await bookModel.findOneAndUpdate({ _id: bookId },Data, { new: true })
-        if(books.title==Data.title){
+      for(let i=0;i<books.length;i++){
+        if(books[i].title==title){
           return res.status(400).send({status:false,message:"title is already exists"})
         }
         
-        if(books.ISBN==Data.ISBN){
+        if(books[i].ISBN==ISBN){
           return res.status(400).send({status:false,message:"ISBN is already exists"})
         }
+      }
+      const updatedData = await bookModel.findOneAndUpdate({ _id: bookId },Data, { new: true })
+      
+
       return res.status(200).send({ status: true, message: "successfully updated", data: updatedData })
   }
   catch (err) {

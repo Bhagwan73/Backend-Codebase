@@ -21,10 +21,10 @@ router.get("/books",authenticate,bookController.getbooks)
 router.get("/books/:bookId",authenticate,bookController.getBookById)
 
 /*************************update books**************************************/
-router.put("/books/:bookId",authenticate,bookController.updateBook)
+router.put("/books/:bookId",authenticate,authorisation,bookController.updateBook)
 
 /***********************************delete books****************************/
-router.delete("/books/:bookId",authenticate,bookController.deletebookbyId)
+router.delete("/books/:bookId",authenticate,authorisation,bookController.deletebookbyId)
 
 /***********************************create review***************************/
 router.post("/books/:bookId/review",reviewController.createReview)

@@ -46,14 +46,15 @@ const createUser = async function (req, res) {
     if (!isValidPass(password)) return res.status(400).send({status: false,message: "please provide the valid or strong password"});
 
     //------------------------->>-address-<<-----------------------<<
+    if(address){
     const {pincode,street,city} = address
-    if(pincode){
-      if(!isValidPincode(pincode)) return res.status(400).send({status:false,message:"please provide the valid pincode"})
-      }
-    
     if(city){
       if(!isValidCity(city)) return res.status(400).send({status:false,message:"please provide the valid city name"})
       }
+    if(pincode){
+      if(!isValidPincode(pincode)) return res.status(400).send({status:false,message:"please provide the valid pincode"})
+      }
+    }
 
     //------------------------>>-createUser-<<-----------------------<<
     const user = await userModel.create(data);
