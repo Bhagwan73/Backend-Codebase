@@ -19,10 +19,10 @@ const createBook = async function (req, res) {
 const getbooks = async function (req, res) {
   try {
     let queries = req.query;
-    let result = { isDeleted: false, ...queries };
-    if (!Object.keys(queries).length) {
+      let result = { isDeleted: false, ...queries };
+      if (!Object.keys(queries).length) {
       const data = await bookModel.find({ isDeleted: false }).sort({ title: 1 });
-      if (!Object.keys(data).length) {
+      if (data.length == 0) {
         return res.status(404).send({ status: false, message: "Book not found" });
       }
       return res.status(200).send({ status: true, Data: data });
@@ -31,11 +31,7 @@ const getbooks = async function (req, res) {
         .select({title: 1, _id: 1, excerpt: 1,userId: 1, category: 1, releasedAt: 1,reviews: 1,})
         .sort({ title: 1 });
 
-      if (!Object.keys(data).length) {
-        return res
-          .status(404)
-          .send({ status: false, message: "Book not found" });
-      }
+      if (data.length == 0) return res.status(404).send({ status: false, message: "Book not found" });
 
       return res.status(200).send({ status: true,message : "Book list", data: data });
     }

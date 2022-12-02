@@ -16,7 +16,7 @@ router.post("/login",userController.userLogin)
 router.post("/books",authenticate,valideBookDetails,bookController.createBook)
 
 /*****************************getbooks***************************************/
-router.get("/books",authenticate,authorisation,bookController.getbooks)
+router.get("/books",authenticate,bookController.getbooks)
 
 /**************************get Book By BookId *******************************/
 router.get("/books/:bookId",authenticate,authorisation,bookController.getBookById)

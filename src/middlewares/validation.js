@@ -33,8 +33,8 @@ try{
 
    if(element=="userId"){
      if(!isValidObjectId(req.body[element]))  return res.status(400).send({ status: false, message: `please provide the valid ${element}`})
-     let ObjectId = await userModel.findById(req.body[element])
-     if (!ObjectId) return res.status(404).send({ status: false, message: `this ${element} is not exists in a database` })
+     let user = await userModel.findById(req.body[element])
+     if (!user) return res.status(404).send({ status: false, message: `this ${element} is not exists in a database` })
    }
    
    if(element=="ISBN"){
