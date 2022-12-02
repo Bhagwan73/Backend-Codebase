@@ -4,6 +4,7 @@ const bookController=require("../controllers/bookController")
 const userController = require("../controllers/userController");
 const reviewController = require("../controllers/reviewController");
 const {authenticate,authorisation} = require("../middlewares/auth");
+const {valideBookDetails} = require("../middlewares/validation")
 
 /***********************************user register *****************************/
 router.post("/register", userController.createUser);
@@ -12,13 +13,13 @@ router.post("/register", userController.createUser);
 router.post("/login",userController.userLogin)
 
 /***************************************create Book**************************/
-router.post("/books",authenticate,bookController.createBook)
+router.post("/books",authenticate,valideBookDetails,bookController.createBook)
 
 /*****************************getbooks***************************************/
-router.get("/books",authenticate,bookController.getbooks)
+router.get("/books",authenticate,authorisation,bookController.getbooks)
 
 /**************************get Book By BookId *******************************/
-router.get("/books/:bookId",authenticate,bookController.getBookById)
+router.get("/books/:bookId",authenticate,authorisation,bookController.getBookById)
 
 /*************************update books**************************************/
 router.put("/books/:bookId",authenticate,authorisation,bookController.updateBook)
@@ -34,5 +35,10 @@ router.put("/books/:bookId/review/:reviewId",reviewController.updateReview)
 
 /************************************delete review  ***********************/
 router.delete("/books/:bookId/review/:reviewId",reviewController.deleteReview)
+
+/*******************************path not found  ***********************/
+router.all("/*",function (req,res){
+    return res.status(404).send({status:false,message:"path not found"})
+})
 
 module.exports = router;
