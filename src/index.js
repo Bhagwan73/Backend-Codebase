@@ -1,23 +1,28 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const app = express();
 const route = require("./routes/route");
+const app = express();
+const mongoDB= "mongodb+srv://PriyankaChavan:priyanka@cluster0.iocf9uz.mongodb.net/group29Database"
+
+mongoose.connect(  mongoDB,{ useNewUrlParser: true },(err)=>{
+  if(err){
+    console.log("mongoDB is not connected",err)
+  }else{
+    console.log("mongoDB is connected")
+  }
+})
+
 app.use(express.json());
-
-mongoose
-  .connect(
-    "mongodb+srv://PriyankaChavan:priyanka@cluster0.iocf9uz.mongodb.net/group29Database",
-    { useNewUrlParser: true }
-  )
-  .then(() => {
-    console.log("Project3 mongoDB connected");
-  })
-  .catch((errors) => {
-    console.log(errors.message);
-  });
-
 app.use("/", route);
 
-app.listen(process.env.PORT || 3000, function () {
-  console.log("express running on PORT " + (process.env.PORT || 3000));
+app.use("*", (req, res, next) => {
+  res.status(404).json({
+    status: false,
+    msg: `can not find ${req.originalUrl} on this server`,
+  });
+});
+
+const PORT=process.env.PORT
+app.listen(PORT || 3000, function () {
+  console.log("express running on PORT " + (PORT || 3000));
 });
