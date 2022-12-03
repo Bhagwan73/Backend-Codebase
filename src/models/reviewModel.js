@@ -29,8 +29,13 @@ const reviewSchema = new mongoose.Schema({
     isDeleted: {
         type: Boolean,
         default: false
-    }
-}, { timestamps: true })
-
+    },
+    //HIDE_THE_VERSION_KEY
+    __v: { 
+        type: Number,
+         select: false
+        }
+    
+}, { timestamps: true  })
 
 module.exports = mongoose.model('review', reviewSchema)

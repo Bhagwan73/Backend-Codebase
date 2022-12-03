@@ -3,8 +3,8 @@ const router = express.Router();
 const bookController=require("../controllers/bookController")
 const userController = require("../controllers/userController");
 const reviewController = require("../controllers/reviewController");
-const {authenticate,authorisation} = require("../middlewares/auth");
-const {valideBookDetails} = require("../middlewares/validation")
+const {authenticate,authorisation,isValidBookId} = require("../middlewares/auth");
+
 
 /***********************************user register *****************************/
 router.post("/register", userController.createUser);
@@ -13,7 +13,7 @@ router.post("/register", userController.createUser);
 router.post("/login",userController.userLogin)
 
 /***************************************create Book**************************/
-router.post("/books",authenticate,valideBookDetails,bookController.createBook)
+router.post("/books",authenticate,bookController.createBook)
 
 /*****************************getbooks***************************************/
 router.get("/books",authenticate,bookController.getbooks)
@@ -28,13 +28,13 @@ router.put("/books/:bookId",authenticate,authorisation,bookController.updateBook
 router.delete("/books/:bookId",authenticate,authorisation,bookController.deletebookbyId)
 
 /***********************************create review***************************/
-router.post("/books/:bookId/review",reviewController.createReview)
+router.post("/books/:bookId/review",isValidBookId,reviewController.createReview)
 
 /***********************************update review***************************/
-router.put("/books/:bookId/review/:reviewId",reviewController.updateReview)
+router.put("/books/:bookId/review/:reviewId",isValidBookId,reviewController.updateReview)
 
 /************************************delete review  ***********************/
-router.delete("/books/:bookId/review/:reviewId",reviewController.deleteReview)
+router.delete("/books/:bookId/review/:reviewId",isValidBookId,reviewController.deleteReview)
 
 /*******************************path not found  ***********************/
 router.all("/*",function (req,res){
