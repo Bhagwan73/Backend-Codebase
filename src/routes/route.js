@@ -5,40 +5,36 @@ const userController = require("../controllers/userController");
 const reviewController = require("../controllers/reviewController");
 const {authenticate,authorisation,isValidBookId} = require("../middlewares/auth");
 
-
-/***********************************user register *****************************/
+//                       <<<===>>>-USERS_API-<<<===>>>
+// [1].CREATE_USER_DOCUMENT
 router.post("/register", userController.createUser);
-
-/***********************************login ************************************/
+// [2].LOGIN_USER_WITH_THEIR_EMAIL_OR_PASSWORD
 router.post("/login",userController.userLogin)
 
-/***************************************create Book**************************/
+
+//                       <<<===>>>-BOOKS_API-<<<===>>>
+// [1].CRETE_BOOK_DOCUMENT
 router.post("/books",authenticate,bookController.createBook)
-
-/*****************************getbooks***************************************/
+// [2].GET_ALL_BOOKS
 router.get("/books",authenticate,bookController.getbooks)
-
-/**************************get Book By BookId *******************************/
+// [3].GET_BOOK_BY_ID
 router.get("/books/:bookId",authenticate,authorisation,bookController.getBookById)
-
-/*************************update books**************************************/
+// [4].UPDATE_BOOK_DOCUMENT
 router.put("/books/:bookId",authenticate,authorisation,bookController.updateBook)
-
-/***********************************delete books****************************/
+// [5].DELETE_BOOK_DOCUMENT_BY_USING_BOOK_ID
 router.delete("/books/:bookId",authenticate,authorisation,bookController.deletebookbyId)
 
-/***********************************create review***************************/
+//                       <<<===>>>-REVIEWS_API-<<<===>>>   
+// [1].CREATE_REVIEW_DOCUMENT
 router.post("/books/:bookId/review",isValidBookId,reviewController.createReview)
-
-/***********************************update review***************************/
+// [2].UPDATE_REVIEW_DOCUMENT
 router.put("/books/:bookId/review/:reviewId",isValidBookId,reviewController.updateReview)
-
-/************************************delete review  ***********************/
+// [3].DELETE_REVIEW_DOCUMENT
 router.delete("/books/:bookId/review/:reviewId",isValidBookId,reviewController.deleteReview)
 
-/*******************************path not found  ***********************/
-router.all("/*",function (req,res){
-    return res.status(404).send({status:false,message:"path not found"})
-})
-
+//ERROR_HANDLING_ROUTE
+router.all("/*", function(req, res,){
+    res.status(404).json({status: false, msg: `can not fond ${req.originalUrl} url on this server`,});
+  });
+  
 module.exports = router;

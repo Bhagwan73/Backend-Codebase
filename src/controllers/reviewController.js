@@ -25,8 +25,8 @@ exports.createReview = async function(req,res){
         data.reviewedAt=new Date(Date.now())
         //CREATE_REVIEW
         const reviewBook = await reviewModel.create(data)
-        //UPDATE_BOOK_WITH_REVIEW_DETAILS
-        let updateData = await bookModel.findOneAndUpdate({ _id:book_id },{ $inc: { reviews: 1 }}, { new: true }).select({ __v: 0 }).lean()
+        //UPDATE_BOOK_WITH_REVIEW_DETAILS(INCREASE_REVIEW_BY_1)
+        let updateData = await bookModel.findOneAndUpdate({ _id:book_id },{ $inc: { reviews: 1 }}, { new: true }).lean()
         //CREATE_NEW_REVIEW_OBJECT(HIDE_SOME_FIELDS)
         let reviews={
             _id:reviewBook._id,
@@ -86,18 +86,26 @@ exports.updateReview = async function(req,res){
 //                    <<-------->>-DELETE_REVIEW-<<---------->>
 
 exports.deleteReview =async function(req,res){
+    try{
     const{bookId,reviewId}=req.params
     //CHECK_VALIDE_REVIEW_ID
     if(!reviewId) return res.status(400).send({status:false,message:"please provide the reviewId"})
     if(!isValidObjectId(reviewId)) return res.status(400).send({status:false,message:"this reviewId is not exists"})
+    //CHECK_THIS_REVIEW_IS_THAT_BOOKS_REVIEW_OR_NOT
     let review=await reviewModel.findOne({_id:reviewId,bookId:bookId,isDeleted:false})
     if(!review) return res.status(404).send({status:false,message:"this review is not exists"})
     //UPDATE_REVIEW_DOCUMENT(DELETE_REVIEW)
     const reviewBook = await reviewModel.findOneAndUpdate({_id:reviewId}, {$set:{isDeleted:true,deletedAt:new Date(Date.now())}}, {new:true})
     //UPDATE_BOOK_DOCUMENT
-    let updateData = await bookModel.findOneAndUpdate({ _id: bookId, isDeleted: false },{ $inc: { reviews: -1 } }, { new: true }).lean()
-            
+    let updateData = await bookModel.findOneAndUpdate({ _id: bookId},{ $inc: { reviews: -1 } }, { new: true }).lean()
+    //ADD_NEW_KEY_IN_BOOK_DOCUMENT
     updateData.reviewsData = [reviewBook]
     return res.status(200).send({status:true, message: "successfully deleted", data: updateData })
+    }catch(err){
+        return res.status(500).send({status : false , message : err.message})        
+    }
 }
+
+//                          <<<===>>>-END_REVIEWS_API-<<<===>>>
+
 

@@ -6,11 +6,11 @@ const { isValidObjectId } = require("../validator/validator");
 
 exports.authenticate = function (req, res, next) {
   try {
-    //CHECK_TOKEN_IS_EXISTS_OR_NOT_IN_REQUEST_HEADERS
+    //CHECK_TOKEN_IS_EXISTS_OR_NOT_IN_REQUEST_HEADERS  
     let token = req.headers["x-api-key"] || req.headers["X-Api-Key"];
     if (!token) return res.status(400).send({ status: false, message: "token must be present" });
     //VERIFY_THE_TOKEN
-    jwt.verify( token,"Book-mgmt",{ ignoreExpiration: true },
+    jwt.verify( token,"Project_Book_Management",{ ignoreExpiration: true },
     //WRITE_FUNCTION_FOR_IF_GET_ERROR_IN_VERIFYING_PROCESS_SO_PUT_ERROR_IN_ERR_PARAMETER_AND_IF_TOKEN_CREATED_SUCESSFULLY_SO_PUT_VALUE_IN_DECODEDTOKEN_PARAMETER
       function (err, decodedToken) {
         if (err) {
@@ -33,6 +33,7 @@ exports.authenticate = function (req, res, next) {
 //                    <<-------->>-AUTHORISATION-<<---------->>
 
 exports.authorisation = async function (req, res, next) {
+  try{
   //CHECK_VALID_BOOK_ID_IN_PARAMS
   let bookId = req.params.bookId;
   if (!bookId) return res.status(400).send({ status: false, message: "please provide the bookId" });
@@ -51,6 +52,9 @@ exports.authorisation = async function (req, res, next) {
   }else{
   next();
   }
+}catch(err){
+  res.status(500).send({ status: false, message: err.message });
+}
 };
 
 

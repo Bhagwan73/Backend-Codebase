@@ -77,6 +77,8 @@ exports.getbooks=async function (req,res){
 }
 }
 
+
+
 //                    <<-------->>-GET_BOOKS_BY_ID-<<---------->>
      
 exports.getBookById=async function(req,res){
@@ -114,13 +116,23 @@ exports.updateBook = async function (req, res) {
       if (!enums.includes(element)) {
         return res.status(400).send({ status: false, message: `book cannot update using ${element} field` })
       }
-      //CHECK_UNIQUE_TITLE
+      //CHECK_TITLE_IS_VALID_OR_UNIQUE
       if(element=="title"){
+        if(!isValidString(req.body[element])) return res.status(400).send({ status: false, message: `please provide the valid ${element}` })
         let uniqueTitle=await bookModel.findOne({title:req.body[element]})  
         if(uniqueTitle) return res.status(400).send({status:false,message:`this ${element} is already exists`})
       }
-      //CHECK_UNIQUE_ISBN
+     //CHECK_VALID_EXCERPT
+      if(element=="excerpt"){
+        if(!isValidString(req.body[element])) return res.status(400).send({ status: false, message: `please provide the valid ${element}` })
+      }
+     //CHECK_VALID_RELEASED_AT
+      if(element=="releasedAt"){
+        if(!isValidDate(req.body[element])) return res.status(400).send({ status: false, message: `please provide the valid ${element}` })
+      }
+      //CHECK_ISBN_IS_VALID_OR_UNIQUE
       if(element=="ISBN"){
+        if (!isValidISBN(req.body[element])) return res.status(400).json({ status: false, message: `please provide the valid ${element}` })
         let uniqueISBN=await bookModel.findOne({ISBN:req.body[element]})
         if(uniqueISBN) return res.status(400).send({status:false,message:`this ${element} is already exists`})
       }

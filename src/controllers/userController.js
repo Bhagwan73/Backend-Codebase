@@ -51,8 +51,8 @@ exports.createUser = async function (req, res) {
     }
   }
   //THESE_FIELDE_IS_NOT_MANDATORY
-  const {address,address:{pincode,city}} =data
-  if(address){
+  const {addresss:{pincode,city},addresss} =data
+  if(addresss){
     if(pincode){
       if(!isValidPincode(pincode)) return res.status(400).send({status:false,message:"please provide the valid pincode"})
     }
@@ -86,9 +86,9 @@ exports.userLogin = async function (req, res) {
     let getUsersData = await userModel.findOne({email: email,password: password});
     if (!getUsersData) return res.status(401).send({ status: false, message: "Enter a valid Email or Password" });
     //CREATE TOKEN 
-     const payload={userId: getUsersData._id.toString()}
-     const setExpiry={ expiresIn: 30*60 }
-     const secreteKey="Project_Book_Management"
+     const payload={userId: getUsersData._id.toString()}    //PAYLOAD
+     const setExpiry={ expiresIn: 30*60 }                   //SET_EXPIRY
+     const secreteKey="Project_Book_Management"             //PRIVET_KEY
     let token = jwt.sign( payload ,secreteKey,setExpiry)
     //SET HEADER IN RESPONCE
     res.setHeader("x-api-key", token);
@@ -98,3 +98,5 @@ exports.userLogin = async function (req, res) {
     res.status(500).send({ status: false, message: err.message });
   }
 };
+
+//                          <<<===>>>-END_USERS_API-<<<===>>>
